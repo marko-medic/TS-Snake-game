@@ -78,6 +78,16 @@ export interface IGame extends EventEmitter {
   pause(): void;
 }
 
+export interface IMenu extends EventEmitter {
+  selector: string;
+  settings: IMenuSettings;
+  init(): void;
+}
+
+export interface IMenuSettings extends ISnakeSettings {
+  isPaused: boolean;
+}
+
 export interface IModal {
   selector: string;
   show(): void;
