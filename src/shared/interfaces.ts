@@ -1,3 +1,5 @@
+import { EventEmitter } from 'events';
+
 interface ISnakeOptions {
   headColor: 'red' | 'orange' | 'yellow';
   tailColor: string;
@@ -40,4 +42,38 @@ export interface ISnakeDetails {
     canvasHeight: number;
     gridSize: number;
   };
+}
+
+export interface ISnakeSettings extends ISnakeOptions {
+  speed: number;
+  withWalls: boolean;
+}
+
+interface IGameSettings {
+  canvasHeight: number;
+  canvasWidth: number;
+  horizontalFields: number;
+  verticalFields: number;
+}
+
+export interface IAppSettings {
+  gameSettings: IGameSettings;
+  snakeSettings: ISnakeSettings;
+}
+
+export interface IGame extends EventEmitter {
+  selector: string;
+  gridSize: number;
+  gameOptions: IAppSettings;
+  snake: ISnake;
+  food: IFood;
+  ctx: CanvasRenderingContext2D;
+  score: number;
+  snakeSpeed: number;
+  canvas: HTMLCanvasElement;
+  isPaused: boolean;
+  init(): void;
+  render(): void;
+  start(): void;
+  pause(): void;
 }
