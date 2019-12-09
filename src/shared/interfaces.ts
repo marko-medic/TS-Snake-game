@@ -5,6 +5,16 @@ interface ISnakeOptions {
   tailColor: string;
 }
 
+export interface IApp {
+  game: IGame;
+  menu: IMenu;
+  modal: IModal;
+  appSettings: IAppSettings;
+  start(): void;
+  bestScore: HTMLElement;
+  currentScore: HTMLElement;
+}
+
 export interface IPosition {
   x: number;
   y: number;
