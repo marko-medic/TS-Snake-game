@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Snake game</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <div id="root">
+      <header>
+        <h1>Snake game</h1>
+      </header>
+      <section class="score-wrapper">
+        <p>Score: <span id="score">0</span></p>
+      </section>
+      <main>
+        <canvas id="game">
+          Canvas is not supported on older browsers
+        </canvas>
+      </main>
+      <p class="score-info">Best score is: <strong id="bestScore">0</strong></p>
+      <section id="menu" class="menu">
+        <button class="btn" id="btnTogglePlay"></button>
+        <label for="color">Change snake tail color</label>
+        <input type="color" name="color" id="color" />
+        <label for="speed">Change snake speed:</label>
+        <input type="range" name="speed" id="speed" />
+        <div class="buttons">
+          <button class="btn" id="btnNewGame">New game</button>
+          <div class="btn-group">
+            <button id="btnWalls">With walls</button>
+            <button id="btnWallsFree">Without walls</button>
+          </div>
+        </div>
+      </section>
+      <div id="modal">
+        <div class="modal-wrapper">
+          <div class="title">Some title</div>
+          <div class="message">Some message</div>
+          <button class="btn close">Ok</button>
+        </div>
+      </div>
+    </div>
+    <script src="index.ts"></script>
+  </body>
+</html>
