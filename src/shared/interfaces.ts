@@ -77,3 +77,10 @@ export interface IGame extends EventEmitter {
   start(): void;
   pause(): void;
 }
+
+export interface IModal {
+  selector: string;
+  show(): void;
+  hide(): void;
+  setMessage(title: string, message: string): void;
+}
