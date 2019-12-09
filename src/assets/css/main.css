@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+header {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+#game {
+  display: block;
+  margin: 2rem auto;
+  border: 1px solid black;
+}
+
+.score-wrapper {
+  text-align: center;
+}
+
+#score {
+  color: green;
+  font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  background: lightgreen;
+  padding: 1rem;
+  align-items: center;
+  flex-direction: column;
+}
+.score-info {
+  text-align: center;
+  padding: 0.3rem;
+}
+#bestScore {
+  color: red;
+  font-weight: bold;
+}
+
+.buttons {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.buttons button {
+  font-weight: bolder;
+  margin: 0.2rem;
+}
+
+#btnNewGame {
+  background: rgb(0, 132, 255);
+}
+.red {
+  background: red;
+}
+.orange {
+  background: #b16700;
+}
+button.active {
+  text-decoration: underline;
+}
+.btn {
+  color: white;
+  padding: 0.5rem 0.8rem;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+#btnTogglePlay {
+  margin: 1rem auto;
+  background: green;
+  display: block;
+}
+#modal {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  opacity: 0;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  transition: opacity 0.3s ease-in;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+#modal.open {
+  opacity: 1;
+}
+
+#modal > .modal-wrapper {
+  padding: 2rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  background: white;
+}
+
+#modal > .modal-wrapper > div {
+  margin-top: 0.5rem;
+}
+
+#modal > .modal-wrapper > div.title {
+  font-weight: bold;
+}
+
+#modal button.close {
+  margin-top: 1rem;
+  background: red;
+}
