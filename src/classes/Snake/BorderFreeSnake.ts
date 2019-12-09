@@ -3,11 +3,7 @@ import { Snake } from './Snake';
 
 export class BorderFreeSnake extends Snake implements ISnake {
   getNewPosition() {
-    const {
-      canvasHeight,
-      canvasWidth,
-      gridSize
-    } = this.snakeDetails.gameOptions;
+    const { canvasHeight, canvasWidth, gridSize } = this.snakeDetails.gameInfo;
     const maxX = canvasWidth - gridSize;
     const maxY = canvasHeight - gridSize;
     const { x: oldX, y: oldY } = this.positions[0];

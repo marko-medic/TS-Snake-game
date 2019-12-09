@@ -37,7 +37,7 @@ export class App implements IApp {
   private _newGame(withWalls: boolean) {
     this.appSettings = clone(this._initialSettings);
     this.appSettings.snakeSettings.withWalls = withWalls;
-    this.game.gameOptions = this.appSettings;
+    this.game.gameInfo = this.appSettings;
     this.menu.settings = {
       ...this.appSettings.snakeSettings,
       withWalls,

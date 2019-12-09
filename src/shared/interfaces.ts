@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-interface ISnakeOptions {
+interface ISnakeInfo {
   headColor: 'red' | 'orange' | 'yellow';
   tailColor: string;
 }
@@ -46,15 +46,15 @@ export interface ISnake extends IDraw {
 }
 
 export interface ISnakeDetails {
-  snakeOptions: ISnakeOptions;
-  gameOptions: {
+  snakeInfo: ISnakeInfo;
+  gameInfo: {
     canvasWidth: number;
     canvasHeight: number;
     gridSize: number;
   };
 }
 
-export interface ISnakeSettings extends ISnakeOptions {
+export interface ISnakeSettings extends ISnakeInfo {
   speed: number;
   withWalls: boolean;
 }
@@ -74,7 +74,7 @@ export interface IAppSettings {
 export interface IGame extends EventEmitter {
   selector: string;
   gridSize: number;
-  gameOptions: IAppSettings;
+  gameInfo: IAppSettings;
   snake: ISnake;
   food: IFood;
   ctx: CanvasRenderingContext2D;

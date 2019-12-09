@@ -7,7 +7,7 @@ export abstract class Snake implements ISnake {
   //@ts-ignore
   private _direction: Direction;
   constructor(protected snakeDetails: ISnakeDetails) {
-    const { gridSize } = this.snakeDetails.gameOptions;
+    const { gridSize } = this.snakeDetails.gameInfo;
     this.positions.push({
       x: gridSize * 5,
       y: gridSize * 3
@@ -15,12 +15,12 @@ export abstract class Snake implements ISnake {
   }
 
   set tailColor(newColor: string) {
-    this.snakeDetails.snakeOptions.tailColor = newColor;
+    this.snakeDetails.snakeInfo.tailColor = newColor;
   }
 
   // snake size is equal as grid size
   get size() {
-    return this.snakeDetails.gameOptions.gridSize;
+    return this.snakeDetails.gameInfo.gridSize;
   }
 
   abstract getNewPosition(): IPosition;
@@ -83,7 +83,7 @@ export abstract class Snake implements ISnake {
     this.move(true);
   }
   draw(ctx: CanvasRenderingContext2D) {
-    const { headColor, tailColor } = this.snakeDetails.snakeOptions;
+    const { headColor, tailColor } = this.snakeDetails.snakeInfo;
     for (const [index, position] of this.positions.entries()) {
       ctx.fillStyle = index === 0 ? headColor : tailColor;
       ctx.fillRect(position.x, position.y, this.size, this.size);
