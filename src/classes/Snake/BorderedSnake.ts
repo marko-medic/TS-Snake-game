@@ -18,11 +18,7 @@ export class BorderedSnake extends Snake implements ISnake {
   }
 
   private _borderCollision() {
-    const {
-      canvasHeight,
-      canvasWidth,
-      gridSize
-    } = this.snakeDetails.gameOptions;
+    const { canvasHeight, canvasWidth, gridSize } = this.snakeDetails.gameInfo;
     return (
       this.positions[0].y < 0 ||
       this.positions[0].y > canvasHeight - gridSize ||

@@ -28,7 +28,7 @@ export class Game extends EventEmitter implements IGame {
   public isPaused: boolean;
   private _interval: number = 0;
 
-  constructor(public selector: string, public gameOptions: IAppSettings) {
+  constructor(public selector: string, public gameInfo: IAppSettings) {
     super();
     this.init();
   }
@@ -42,11 +42,11 @@ export class Game extends EventEmitter implements IGame {
   }
 
   get snakeSpeed() {
-    return this.gameOptions.snakeSettings.speed;
+    return this.gameInfo.snakeSettings.speed;
   }
 
   set snakeSpeed(speed: number) {
-    this.gameOptions.snakeSettings.speed = speed;
+    this.gameInfo.snakeSettings.speed = speed;
   }
 
   init() {
@@ -54,8 +54,8 @@ export class Game extends EventEmitter implements IGame {
       verticalFields,
       canvasHeight,
       canvasWidth
-    } = this.gameOptions.gameSettings;
-    const { withWalls, headColor } = this.gameOptions.snakeSettings;
+    } = this.gameInfo.gameSettings;
+    const { withWalls, headColor } = this.gameInfo.snakeSettings;
     this.isPaused = false;
     this.canvas = document.querySelector(this.selector) as HTMLCanvasElement;
     this._validateOptions();
@@ -65,11 +65,11 @@ export class Game extends EventEmitter implements IGame {
     this.canvas.style.border = withWalls ? '1px solid red' : '1px solid green';
 
     const snakeDetails: ISnakeDetails = {
-      snakeOptions: {
+      snakeInfo: {
         headColor,
         tailColor: 'green'
       },
-      gameOptions: {
+      gameInfo: {
         canvasHeight: canvasHeight,
         canvasWidth: canvasWidth,
         gridSize: this.gridSize
@@ -124,7 +124,7 @@ export class Game extends EventEmitter implements IGame {
   }
 
   private _createNewFood() {
-    const { horizontalFields, verticalFields } = this.gameOptions.gameSettings;
+    const { horizontalFields, verticalFields } = this.gameInfo.gameSettings;
     const foodOptions = {
       height: this.gridSize,
       width: this.gridSize,
@@ -171,8 +171,8 @@ export class Game extends EventEmitter implements IGame {
   }
 
   private _validateOptions() {
-    const { speed } = this.gameOptions.snakeSettings;
-    const { canvasWidth, canvasHeight } = this.gameOptions.gameSettings;
+    const { speed } = this.gameInfo.snakeSettings;
+    const { canvasWidth, canvasHeight } = this.gameInfo.gameSettings;
     if (speed <= 0 || speed > 100) {
       throw new Error('Invalid snake speed');
     }
