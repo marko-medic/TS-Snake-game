@@ -11,6 +11,7 @@ import { BorderFreeSnake } from '../Snake/BorderFreeSnake';
 import { Food } from '../Food/Food';
 import { INTERVAL_RATIO, BONUS_FOOD_RATIO } from '../../shared/constants';
 import { getRandomPosition } from '../../shared/helpers';
+import { Key } from '../../shared/types';
 
 export class Game extends EventEmitter implements IGame {
   //@ts-ignore
@@ -141,7 +142,9 @@ export class Game extends EventEmitter implements IGame {
 
   private _bindEvents() {
     window.addEventListener('keydown', event => {
-      event.preventDefault();
+      if (event.key === Key.DOWN || event.key === Key.UP) {
+        event.preventDefault();
+      }
       this.snake.changeDirection(event.key);
     });
   }
