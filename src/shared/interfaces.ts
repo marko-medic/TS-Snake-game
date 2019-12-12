@@ -43,7 +43,7 @@ export interface ISnake extends IDraw {
   direction: Direction;
   move(move?: boolean): void;
   isCollied(): boolean;
-  changeDirection(): void;
+  changeDirection(key: string): void;
   eat(foodPosition: IPosition): void;
 }
 

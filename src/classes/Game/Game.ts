@@ -149,28 +149,7 @@ export class Game extends EventEmitter implements IGame {
     if (this.isPaused || !this._interval || this._isGameOver) {
       return false;
     }
-    switch (event.key) {
-      case Key.UP:
-        if (this.snake.direction !== Direction.DOWN) {
-          this.snake.direction = Direction.UP;
-        }
-        break;
-      case Key.DOWN:
-        if (this.snake.direction !== Direction.UP) {
-          this.snake.direction = Direction.DOWN;
-        }
-        break;
-      case Key.LEFT:
-        if (this.snake.direction !== Direction.RIGHT) {
-          this.snake.direction = Direction.LEFT;
-        }
-        break;
-      case Key.RIGHT:
-        if (this.snake.direction !== Direction.LEFT) {
-          this.snake.direction = Direction.RIGHT;
-        }
-    }
-    this.snake.changeDirection();
+    this.snake.changeDirection(event.key);
     this.render();
     this.start();
   }

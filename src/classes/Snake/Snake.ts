@@ -1,5 +1,5 @@
 import { ISnake, IPosition, ISnakeDetails } from '../../shared/interfaces';
-import { Direction } from '../../shared/types';
+import { Direction, Key } from '../../shared/types';
 import { BORDER_COLOR } from '../../shared/constants';
 
 export abstract class Snake implements ISnake {
@@ -52,19 +52,31 @@ export abstract class Snake implements ISnake {
     return false;
   }
 
-  changeDirection() {
-    switch (this.direction) {
-      case Direction.UP:
-        this.newPosition = { x: 0, y: -this.size };
+  changeDirection(key: string) {
+    switch (key) {
+      case Key.UP:
+        if (this.direction !== Direction.DOWN) {
+          this.direction = Direction.UP;
+          this.newPosition = { x: 0, y: -this.size };
+        }
         break;
-      case Direction.DOWN:
-        this.newPosition = { x: 0, y: this.size };
+      case Key.DOWN:
+        if (this.direction !== Direction.UP) {
+          this.direction = Direction.DOWN;
+          this.newPosition = { x: 0, y: this.size };
+        }
         break;
-      case Direction.LEFT:
-        this.newPosition = { x: -this.size, y: 0 };
+      case Key.LEFT:
+        if (this.direction !== Direction.RIGHT) {
+          this.direction = Direction.LEFT;
+          this.newPosition = { x: -this.size, y: 0 };
+        }
         break;
-      case Direction.RIGHT:
-        this.newPosition = { x: this.size, y: 0 };
+      case Key.RIGHT:
+        if (this.direction !== Direction.LEFT) {
+          this.direction = Direction.RIGHT;
+          this.newPosition = { x: this.size, y: 0 };
+        }
         break;
     }
   }
@@ -73,6 +85,7 @@ export abstract class Snake implements ISnake {
     this.positions.push(foodPos);
     this.move(true);
   }
+
   draw(ctx: CanvasRenderingContext2D) {
     const { headColor, tailColor } = this.snakeDetails.snakeInfo;
     for (const [index, position] of this.positions.entries()) {
