@@ -66,9 +66,6 @@ export class App implements IApp {
         }`
       );
       this.modal.show();
-      setTimeout(() => {
-        this._newGame(this.appSettings.snakeSettings.withWalls);
-      }, 500);
     });
 
     this.menu.on('speedChange', (speed: number) => {

@@ -1,4 +1,4 @@
-import { ISnake } from '../../shared/interfaces';
+import { ISnake, IPosition } from '../../shared/interfaces';
 import { Snake } from './Snake';
 
 export class BorderedSnake extends Snake implements ISnake {

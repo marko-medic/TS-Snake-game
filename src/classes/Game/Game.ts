@@ -11,7 +11,7 @@ import { BorderFreeSnake } from '../Snake/BorderFreeSnake';
 import { Food } from '../Food/Food';
 import { INTERVAL_RATIO, BONUS_FOOD_RATIO } from '../../shared/constants';
 import { getRandomPosition } from '../../shared/helpers';
-import { Key } from '../../shared/types';
+import { Key, Direction } from '../../shared/types';
 
 export class Game extends EventEmitter implements IGame {
   //@ts-ignore
@@ -26,11 +26,14 @@ export class Game extends EventEmitter implements IGame {
   public food: IFood;
   //@ts-ignore
   public isPaused: boolean;
+  //@ts-ignore
+  private _isGameOver;
   private _interval: number = 0;
 
   constructor(public selector: string, public gameInfo: IAppSettings) {
     super();
     this.init();
+    this._bindEvents();
   }
 
   get ctx() {
@@ -57,6 +60,7 @@ export class Game extends EventEmitter implements IGame {
     } = this.gameInfo.gameSettings;
     const { withWalls, headColor } = this.gameInfo.snakeSettings;
     this.isPaused = false;
+    this._isGameOver = false;
     this.canvas = document.querySelector(this.selector) as HTMLCanvasElement;
     this._validateOptions();
     this.canvas.height = canvasHeight;
@@ -80,7 +84,6 @@ export class Game extends EventEmitter implements IGame {
       : new BorderFreeSnake(snakeDetails);
     this.score = 0;
     this.food = this._createNewFood();
-    this._bindEvents();
   }
 
   pause() {
@@ -88,27 +91,22 @@ export class Game extends EventEmitter implements IGame {
   }
 
   start() {
-    this.render();
-    this.snake.draw(this.ctx);
-  }
-
-  render() {
     clearInterval(this._interval);
     this._interval = setInterval(() => {
-      this.rePaint();
-      this.snake.move();
-      this.snake.draw(this.ctx);
-      this.checkForEat();
-      if (this.snake.isCollied()) {
-        this._gameOver();
-        return;
-      }
+      this.render();
     }, INTERVAL_RATIO - this.snakeSpeed);
   }
 
-  rePaint() {
+  render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this._changeFoodPosition();
+    this.snake.move();
+    this.snake.draw(this.ctx);
+    this.checkForEat();
+    if (this.snake.isCollied()) {
+      this._gameOver();
+      return;
+    }
   }
 
   checkForEat() {
@@ -118,8 +116,8 @@ export class Game extends EventEmitter implements IGame {
       // if position are same -> eat and update score!
       this.snake.eat({ x, y });
       this.score += this.food.points;
-      this.emit('score', this.score);
       this.food = this._createNewFood();
+      this.emit('score', this.score);
     }
   }
 
@@ -141,12 +139,40 @@ export class Game extends EventEmitter implements IGame {
   }
 
   private _bindEvents() {
-    window.addEventListener('keydown', event => {
-      if (event.key === Key.DOWN || event.key === Key.UP) {
-        event.preventDefault();
-      }
-      this.snake.changeDirection(event.key);
-    });
+    window.addEventListener('keydown', event => this._keydownHandler(event));
+  }
+
+  private _keydownHandler(event: KeyboardEvent) {
+    if (event.key === Key.DOWN || event.key === Key.UP) {
+      event.preventDefault();
+    }
+    if (this.isPaused || !this._interval || this._isGameOver) {
+      return false;
+    }
+    switch (event.key) {
+      case Key.UP:
+        if (this.snake.direction !== Direction.DOWN) {
+          this.snake.direction = Direction.UP;
+        }
+        break;
+      case Key.DOWN:
+        if (this.snake.direction !== Direction.UP) {
+          this.snake.direction = Direction.DOWN;
+        }
+        break;
+      case Key.LEFT:
+        if (this.snake.direction !== Direction.RIGHT) {
+          this.snake.direction = Direction.LEFT;
+        }
+        break;
+      case Key.RIGHT:
+        if (this.snake.direction !== Direction.LEFT) {
+          this.snake.direction = Direction.RIGHT;
+        }
+    }
+    this.snake.changeDirection();
+    this.render();
+    this.start();
   }
 
   private _changeFoodPosition() {
@@ -165,8 +191,9 @@ export class Game extends EventEmitter implements IGame {
   }
 
   private _gameOver() {
+    this._isGameOver = true;
     clearInterval(this._interval);
-    this.rePaint();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.emit('over', this.score);
   }
 

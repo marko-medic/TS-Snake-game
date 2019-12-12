@@ -1,11 +1,12 @@
 import { ISnake, IPosition, ISnakeDetails } from '../../shared/interfaces';
-import { Key, Direction } from '../../shared/types';
+import { Direction } from '../../shared/types';
+import { BORDER_COLOR } from '../../shared/constants';
 
 export abstract class Snake implements ISnake {
   public positions: IPosition[] = [];
   public newPosition: IPosition = { x: 0, y: 0 };
-  //@ts-ignore
-  private _direction: Direction;
+  // @ts-ignore
+  public direction: Direction;
   constructor(protected snakeDetails: ISnakeDetails) {
     const { gridSize } = this.snakeDetails.gameInfo;
     this.positions.push({
@@ -26,7 +27,7 @@ export abstract class Snake implements ISnake {
   abstract getNewPosition(): IPosition;
 
   move(eat: boolean = false) {
-    const newHead = this.getNewPosition();
+    let newHead = this.getNewPosition();
 
     this.positions.pop();
     if (eat) {
@@ -51,33 +52,23 @@ export abstract class Snake implements ISnake {
     return false;
   }
 
-  changeDirection(key: Key) {
-    switch (key) {
-      case Key.UP:
-        if (this._direction !== Direction.DOWN) {
-          this._direction = Direction.UP;
-          this.newPosition = { x: 0, y: -this.size };
-        }
+  changeDirection() {
+    switch (this.direction) {
+      case Direction.UP:
+        this.newPosition = { x: 0, y: -this.size };
         break;
-      case Key.DOWN:
-        if (this._direction !== Direction.UP) {
-          this._direction = Direction.DOWN;
-          this.newPosition = { x: 0, y: this.size };
-        }
+      case Direction.DOWN:
+        this.newPosition = { x: 0, y: this.size };
         break;
-      case Key.LEFT:
-        if (this._direction !== Direction.RIGHT) {
-          this._direction = Direction.LEFT;
-          this.newPosition = { x: -this.size, y: 0 };
-        }
+      case Direction.LEFT:
+        this.newPosition = { x: -this.size, y: 0 };
         break;
-      case Key.RIGHT:
-        if (this._direction !== Direction.LEFT) {
-          this._direction = Direction.RIGHT;
-          this.newPosition = { x: this.size, y: 0 };
-        }
+      case Direction.RIGHT:
+        this.newPosition = { x: this.size, y: 0 };
+        break;
     }
   }
+
   eat(foodPos: IPosition) {
     this.positions.push(foodPos);
     this.move(true);
@@ -87,7 +78,7 @@ export abstract class Snake implements ISnake {
     for (const [index, position] of this.positions.entries()) {
       ctx.fillStyle = index === 0 ? headColor : tailColor;
       ctx.fillRect(position.x, position.y, this.size, this.size);
-      ctx.strokeStyle = 'black';
+      ctx.strokeStyle = BORDER_COLOR;
       ctx.strokeRect(position.x, position.y, this.size, this.size);
     }
   }

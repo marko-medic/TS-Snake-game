@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { Direction } from './types';
 
 interface ISnakeInfo {
   headColor: 'red' | 'orange' | 'yellow';
@@ -39,9 +40,10 @@ export interface ISnake extends IDraw {
   size: number;
   positions: IPosition[];
   newPosition: IPosition;
+  direction: Direction;
   move(move?: boolean): void;
   isCollied(): boolean;
-  changeDirection(key: string): void;
+  changeDirection(): void;
   eat(foodPosition: IPosition): void;
 }
 
